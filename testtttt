@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the Git repository
+                git 'https://github.com/your-username/your-repo.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Compile the source code using Maven
+                sh 'mvn clean install'
+            }
+        }
+        
+        post {
+            always {
+                // Archive the compiled artifacts
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'target/**/*.*'
+            }
+        }
+    }
+}
